@@ -1,0 +1,262 @@
+{
+  "baseline_results": [
+    {
+      "concept": "A robot organizing cargo pods in a space station",
+      "mechanic": "push",
+      "levels_produced": 5,
+      "levels_valid": 5,
+      "levels_solvable": 5,
+      "solvability_rate": 1.0,
+      "tokens": 1385,
+      "duration": 11.2,
+      "level_details": [
+        {
+          "level_id": 1,
+          "grid": "5x5",
+          "boxes": 1,
+          "solvable": true,
+          "min_moves": 2,
+          "states_explored": 2,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 2,
+          "grid": "6x6",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 12,
+          "states_explored": 115,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 3,
+          "grid": "7x7",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 11,
+          "states_explored": 669,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 4,
+          "grid": "8x8",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 11,
+          "states_explored": 1633,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 5,
+          "grid": "8x8",
+          "boxes": 3,
+          "solvable": true,
+          "min_moves": 19,
+          "states_explored": 27132,
+          "timeout": false,
+          "issues": []
+        }
+      ]
+    },
+    {
+      "concept": "A penguin sliding ice blocks across a frozen lake to reach fishing holes",
+      "mechanic": "slide",
+      "levels_produced": 5,
+      "levels_valid": 5,
+      "levels_solvable": 1,
+      "solvability_rate": 0.2,
+      "tokens": 1267,
+      "duration": 10.3,
+      "level_details": [
+        {
+          "level_id": 1,
+          "grid": "5x5",
+          "boxes": 1,
+          "solvable": true,
+          "min_moves": 2,
+          "states_explored": 2,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 2,
+          "grid": "6x6",
+          "boxes": 1,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 135,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 3,
+          "grid": "6x6",
+          "boxes": 2,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 796,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 4,
+          "grid": "7x7",
+          "boxes": 2,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 1356,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 5,
+          "grid": "8x8",
+          "boxes": 3,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 21873,
+          "timeout": false,
+          "issues": []
+        }
+      ]
+    },
+    {
+      "concept": "A wizard pushing enchanted gems onto altar pedestals in a gothic dungeon",
+      "mechanic": "push",
+      "levels_produced": 5,
+      "levels_valid": 5,
+      "levels_solvable": 5,
+      "solvability_rate": 1.0,
+      "tokens": 1287,
+      "duration": 9.2,
+      "level_details": [
+        {
+          "level_id": 1,
+          "grid": "5x5",
+          "boxes": 1,
+          "solvable": true,
+          "min_moves": 1,
+          "states_explored": 1,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 2,
+          "grid": "6x6",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 3,
+          "states_explored": 8,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 3,
+          "grid": "6x6",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 8,
+          "states_explored": 46,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 4,
+          "grid": "7x7",
+          "boxes": 3,
+          "solvable": true,
+          "min_moves": 15,
+          "states_explored": 1066,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 5,
+          "grid": "8x8",
+          "boxes": 3,
+          "solvable": true,
+          "min_moves": 12,
+          "states_explored": 1372,
+          "timeout": false,
+          "issues": []
+        }
+      ]
+    },
+    {
+      "concept": "A curling game in zero gravity on a space station",
+      "mechanic": "slide",
+      "levels_produced": 5,
+      "levels_valid": 5,
+      "levels_solvable": 2,
+      "solvability_rate": 0.4,
+      "tokens": 1453,
+      "duration": 11.5,
+      "level_details": [
+        {
+          "level_id": 1,
+          "grid": "5x5",
+          "boxes": 1,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 24,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 2,
+          "grid": "6x6",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 5,
+          "states_explored": 22,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 3,
+          "grid": "6x6",
+          "boxes": 2,
+          "solvable": true,
+          "min_moves": 8,
+          "states_explored": 190,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 4,
+          "grid": "7x7",
+          "boxes": 2,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 1725,
+          "timeout": false,
+          "issues": []
+        },
+        {
+          "level_id": 5,
+          "grid": "8x8",
+          "boxes": 3,
+          "solvable": false,
+          "min_moves": -1,
+          "states_explored": 21893,
+          "timeout": false,
+          "issues": []
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_levels": 20,
+    "total_solvable": 13,
+    "overall_rate": 0.65,
+    "push_solvable": 10,
+    "push_total": 10,
+    "slide_solvable": 3,
+    "slide_total": 10,
+    "mean_tokens": 1348
+  }
+}

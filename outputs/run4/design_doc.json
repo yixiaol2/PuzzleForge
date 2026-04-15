@@ -1,0 +1,1518 @@
+{
+  "game_spec": {
+    "puzzle_type": "sokoban",
+    "theme": "Space Curling",
+    "mechanics": [
+      {
+        "name": "slide",
+        "description": "Player pushes a puck and it slides in zero gravity until it hits a wall or another object.",
+        "interactions": [
+          "slide pucks across the arena",
+          "bounce off walls",
+          "strategically position pucks"
+        ]
+      }
+    ],
+    "win_condition": "All pucks are on target zones.",
+    "level_count": 5,
+    "progression_plan": [
+      {
+        "level": 1,
+        "new_mechanics": [
+          "slide"
+        ],
+        "complexity_target": "tutorial"
+      },
+      {
+        "level": 2,
+        "new_mechanics": [],
+        "complexity_target": "easy"
+      },
+      {
+        "level": 3,
+        "new_mechanics": [],
+        "complexity_target": "medium"
+      },
+      {
+        "level": 4,
+        "new_mechanics": [],
+        "complexity_target": "hard"
+      },
+      {
+        "level": 5,
+        "new_mechanics": [],
+        "complexity_target": "challenging"
+      }
+    ],
+    "theme_details": {
+      "color_scheme": "space",
+      "player_emoji": "\ud83e\udd16",
+      "box_emoji": "\ud83c\udf00",
+      "target_emoji": "\u2728",
+      "wall_emoji": "\ud83d\udfe9",
+      "box_name": "puck",
+      "target_name": "landing pad",
+      "player_name": "robot operator",
+      "win_message": "Mission Accomplished: All pucks are perfectly aligned!"
+    }
+  },
+  "level_definitions": [
+    {
+      "level_id": 1,
+      "grid_width": 6,
+      "grid_height": 6,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          3
+        ]
+      ],
+      "targets": [
+        [
+          4,
+          3
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R",
+        "D",
+        "R"
+      ]
+    },
+    {
+      "level_id": 2,
+      "grid_width": 8,
+      "grid_height": 5,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          4,
+          2
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "targets": [
+        [
+          1,
+          2
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R",
+        "D",
+        "L",
+        "L",
+        "U",
+        "R",
+        "R",
+        "D"
+      ]
+    },
+    {
+      "level_id": 3,
+      "grid_width": 7,
+      "grid_height": 7,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "boxes": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "targets": [
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R",
+        "D",
+        "R",
+        "D",
+        "L",
+        "D"
+      ]
+    }
+  ],
+  "game_config": {
+    "game_title": "PuzzleForge: Space Curling",
+    "puzzle_type": "sokoban",
+    "theme": "Space Curling",
+    "win_condition": "All pucks are on target zones.",
+    "levels": [
+      {
+        "level_id": 1,
+        "title": "Level 1",
+        "grid_width": 6,
+        "grid_height": 6,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        "boxes": [
+          [
+            2,
+            3
+          ]
+        ],
+        "targets": [
+          [
+            4,
+            3
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": [
+          "slide"
+        ]
+      },
+      {
+        "level_id": 2,
+        "title": "Level 2",
+        "grid_width": 8,
+        "grid_height": 5,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            7,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            7,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            4
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            7,
+            4
+          ]
+        ],
+        "boxes": [
+          [
+            2,
+            2
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        "targets": [
+          [
+            1,
+            2
+          ],
+          [
+            6,
+            2
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": []
+      },
+      {
+        "level_id": 3,
+        "title": "Level 3",
+        "grid_width": 7,
+        "grid_height": 7,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            6,
+            6
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        "boxes": [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "targets": [
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": []
+      }
+    ],
+    "primary_mechanic": "slide",
+    "theme_details": {
+      "color_scheme": "space",
+      "player_emoji": "\ud83e\udd16",
+      "box_emoji": "\ud83c\udf00",
+      "target_emoji": "\u2728",
+      "wall_emoji": "\ud83d\udfe9",
+      "box_name": "puck",
+      "target_name": "landing pad",
+      "player_name": "robot operator",
+      "win_message": "Mission Accomplished: All pucks are perfectly aligned!"
+    }
+  },
+  "qa_report": {
+    "level_reports": [
+      {
+        "level_id": 1,
+        "solvable": true,
+        "min_moves": 3,
+        "solver_solution": [
+          "D",
+          "D",
+          "R"
+        ],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 1,
+        "issues": [
+          "Level is trivially easy (3 or fewer moves)"
+        ],
+        "states_explored": 4
+      },
+      {
+        "level_id": 2,
+        "solvable": true,
+        "min_moves": 7,
+        "solver_solution": [
+          "R",
+          "R",
+          "D",
+          "L",
+          "R",
+          "R",
+          "R"
+        ],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 2,
+        "issues": [],
+        "states_explored": 64
+      },
+      {
+        "level_id": 3,
+        "solvable": false,
+        "min_moves": -1,
+        "solver_solution": [],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 0,
+        "issues": [],
+        "states_explored": 1639
+      }
+    ],
+    "difficulty_curve_monotonic": true,
+    "diversity_issues": [],
+    "summary": "2/3 levels solvable. Difficulty curve monotonic: True. Diversity issues: 0."
+  },
+  "routing_decisions": [
+    {
+      "level_id": 2,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (17 tiles, need 8). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    },
+    {
+      "level_id": 3,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (21 tiles, need 8). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    },
+    {
+      "level_id": 3,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (22 tiles, need 8). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    },
+    {
+      "level_id": 3,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (22 tiles, need 8). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    }
+  ],
+  "debug_patches": [
+    {
+      "level_id": 2,
+      "change_description": "Moved wall at (4, 2) to (4, 3) to unblock the path.",
+      "rationale": "The wall at (4, 2) was blocking the path to move the box at (5, 2) to the target at (6, 2). Moving the wall to (4, 3) opens the path and makes the level solvable.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 4,
+          "y": 2,
+          "old_type": "wall",
+          "new_type": "floor"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "old_type": "floor",
+          "new_type": "wall"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          7,
+          4
+        ]
+      ],
+      "patched_boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "patched_targets": [
+        [
+          1,
+          2
+        ],
+        [
+          6,
+          2
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    },
+    {
+      "level_id": 3,
+      "change_description": "Moved a wall to open a path for the player to push boxes to targets.",
+      "rationale": "The current configuration blocks the player from accessing the boxes and targets effectively. By removing one wall, the player can now maneuver the boxes to the targets.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 2,
+          "y": 2,
+          "old_type": "wall",
+          "new_type": "floor"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "patched_boxes": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "patched_targets": [
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    },
+    {
+      "level_id": 3,
+      "change_description": "Moved wall at (4, 2) to (5, 2) to unblock the path for the box to reach the target.",
+      "rationale": "The wall at (4, 2) was blocking the path for the box at (3, 2) to reach the target at (4, 5). Moving the wall to (5, 2) opens the path while maintaining the level's structure.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 4,
+          "y": 2,
+          "old_type": "wall",
+          "new_type": "floor"
+        },
+        {
+          "x": 5,
+          "y": 2,
+          "old_type": "floor",
+          "new_type": "wall"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "patched_boxes": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "patched_targets": [
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    },
+    {
+      "level_id": 3,
+      "change_description": "Moved a wall to open a path for the player to push the boxes to the targets.",
+      "rationale": "The wall at (2, 4) was blocking the path, preventing the player from accessing the boxes and pushing them to the targets. Moving this wall allows the player to navigate around the boxes and push them to the target positions.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 2,
+          "y": 4,
+          "old_type": "wall",
+          "new_type": "floor"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "patched_boxes": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "patched_targets": [
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    }
+  ],
+  "debug_cycles_used": 3,
+  "total_tokens": 8193,
+  "pipeline_duration_seconds": 36.41
+}

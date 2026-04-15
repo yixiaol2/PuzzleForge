@@ -1,0 +1,110 @@
+{
+  "game_title": "PuzzleForge: Space Station",
+  "puzzle_type": "sokoban",
+  "theme": "space station",
+  "win_condition": "Push all cargo pods onto the docking bays",
+  "primary_mechanic": "push",
+  "theme_details": {
+    "color_scheme": "space",
+    "player_emoji": "🤖",
+    "box_emoji": "📦",
+    "target_emoji": "🔷",
+    "wall_emoji": "",
+    "box_name": "cargo pod",
+    "target_name": "docking bay",
+    "player_name": "robot",
+    "win_message": "Cargo secured! Station operational!"
+  },
+  "levels": [
+    {
+      "level_id": 1,
+      "title": "Level 1 -- First Delivery",
+      "grid_width": 5,
+      "grid_height": 5,
+      "walls": [
+        [0,0],[1,0],[2,0],[3,0],[4,0],
+        [0,1],[4,1],
+        [0,2],[4,2],
+        [0,3],[4,3],
+        [0,4],[1,4],[2,4],[3,4],[4,4]
+      ],
+      "boxes": [[2,2]],
+      "targets": [[3,3]],
+      "player_start": [1,1],
+      "mechanics_active": ["push"]
+    },
+    {
+      "level_id": 2,
+      "title": "Level 2 -- Around the Bulkhead",
+      "grid_width": 6,
+      "grid_height": 5,
+      "walls": [
+        [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],
+        [0,1],[5,1],
+        [0,2],[3,2],[5,2],
+        [0,3],[5,3],
+        [0,4],[1,4],[2,4],[3,4],[4,4],[5,4]
+      ],
+      "boxes": [[2,2]],
+      "targets": [[4,3]],
+      "player_start": [1,1],
+      "mechanics_active": ["push"]
+    },
+    {
+      "level_id": 3,
+      "title": "Level 3 -- Twin Pods",
+      "grid_width": 7,
+      "grid_height": 6,
+      "walls": [
+        [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],
+        [0,1],[6,1],
+        [0,2],[3,1],[3,2],[6,2],
+        [0,3],[6,3],
+        [0,4],[6,4],
+        [0,5],[1,5],[2,5],[3,5],[4,5],[5,5],[6,5]
+      ],
+      "boxes": [[2,2],[4,3]],
+      "targets": [[5,2],[5,4]],
+      "player_start": [1,3],
+      "mechanics_active": ["push"]
+    },
+    {
+      "level_id": 4,
+      "title": "Level 4 -- Airlock Maze",
+      "grid_width": 7,
+      "grid_height": 7,
+      "walls": [
+        [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],
+        [0,1],[6,1],
+        [0,2],[3,2],[4,2],[6,2],
+        [0,3],[6,3],
+        [0,4],[2,4],[6,4],
+        [0,5],[6,5],
+        [0,6],[1,6],[2,6],[3,6],[4,6],[5,6],[6,6]
+      ],
+      "boxes": [[2,2],[4,4]],
+      "targets": [[5,1],[5,5]],
+      "player_start": [1,3],
+      "mechanics_active": ["push"]
+    },
+    {
+      "level_id": 5,
+      "title": "Level 5 -- Full Cargo Bay",
+      "grid_width": 8,
+      "grid_height": 7,
+      "walls": [
+        [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],
+        [0,1],[7,1],
+        [0,2],[4,2],[7,2],
+        [0,3],[7,3],
+        [0,4],[3,4],[6,4],[7,4],
+        [0,5],[7,5],
+        [0,6],[1,6],[2,6],[3,6],[4,6],[5,6],[6,6],[7,6]
+      ],
+      "boxes": [[2,2],[5,3],[2,4]],
+      "targets": [[6,1],[6,3],[6,5]],
+      "player_start": [1,1],
+      "mechanics_active": ["push"]
+    }
+  ]
+}

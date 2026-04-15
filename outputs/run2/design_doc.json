@@ -1,0 +1,1798 @@
+{
+  "game_spec": {
+    "puzzle_type": "sokoban",
+    "theme": "Frozen Lake Expedition",
+    "mechanics": [
+      {
+        "name": "slide",
+        "description": "The player slides ice blocks across a frozen surface. The blocks continue sliding until they hit a wall or another block.",
+        "interactions": [
+          "blocks slide until obstacle is encountered"
+        ]
+      }
+    ],
+    "win_condition": "All ice blocks are positioned over fishing holes.",
+    "level_count": 5,
+    "progression_plan": [
+      {
+        "level": 1,
+        "new_mechanics": [
+          "slide"
+        ],
+        "complexity_target": "tutorial"
+      },
+      {
+        "level": 2,
+        "new_mechanics": [],
+        "complexity_target": "easy"
+      },
+      {
+        "level": 3,
+        "new_mechanics": [],
+        "complexity_target": "medium"
+      },
+      {
+        "level": 4,
+        "new_mechanics": [],
+        "complexity_target": "challenging"
+      },
+      {
+        "level": 5,
+        "new_mechanics": [],
+        "complexity_target": "difficult"
+      }
+    ],
+    "theme_details": {
+      "color_scheme": "icy",
+      "player_emoji": "\ud83d\udc27",
+      "box_emoji": "\ud83e\uddca",
+      "target_emoji": "\ud83c\udfa3",
+      "wall_emoji": "\u2744\ufe0f",
+      "box_name": "ice block",
+      "target_name": "fishing hole",
+      "player_name": "penguin",
+      "win_message": "You've reached all the fishing holes! The penguin feasts tonight!"
+    }
+  },
+  "level_definitions": [
+    {
+      "level_id": 1,
+      "grid_width": 6,
+      "grid_height": 6,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          3
+        ]
+      ],
+      "targets": [
+        [
+          4,
+          3
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R",
+        "D",
+        "R"
+      ]
+    },
+    {
+      "level_id": 2,
+      "grid_width": 5,
+      "grid_height": 5,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "boxes": [
+        [
+          1,
+          2
+        ]
+      ],
+      "targets": [
+        [
+          3,
+          2
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R"
+      ]
+    },
+    {
+      "level_id": 3,
+      "grid_width": 7,
+      "grid_height": 7,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          6
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "targets": [
+        [
+          5,
+          2
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R",
+        "D",
+        "D",
+        "L",
+        "D",
+        "R",
+        "R",
+        "U",
+        "U",
+        "L"
+      ]
+    },
+    {
+      "level_id": 4,
+      "grid_width": 8,
+      "grid_height": 8,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          7
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "targets": [
+        [
+          6,
+          2
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          5,
+          4
+        ]
+      ],
+      "player_start": [
+        1,
+        1
+      ],
+      "intended_solution": [
+        "R",
+        "R",
+        "D",
+        "D",
+        "L",
+        "D",
+        "R",
+        "R",
+        "U",
+        "U",
+        "L",
+        "D",
+        "R",
+        "U"
+      ]
+    }
+  ],
+  "game_config": {
+    "game_title": "PuzzleForge: Frozen Lake Expedition",
+    "puzzle_type": "sokoban",
+    "theme": "Frozen Lake Expedition",
+    "win_condition": "All ice blocks are positioned over fishing holes.",
+    "levels": [
+      {
+        "level_id": 1,
+        "title": "Level 1",
+        "grid_width": 6,
+        "grid_height": 6,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        "boxes": [
+          [
+            2,
+            3
+          ]
+        ],
+        "targets": [
+          [
+            4,
+            3
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": [
+          "slide"
+        ]
+      },
+      {
+        "level_id": 2,
+        "title": "Level 2",
+        "grid_width": 5,
+        "grid_height": 5,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "boxes": [
+          [
+            2,
+            2
+          ]
+        ],
+        "targets": [
+          [
+            3,
+            2
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": []
+      },
+      {
+        "level_id": 3,
+        "title": "Level 3",
+        "grid_width": 7,
+        "grid_height": 7,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            6,
+            6
+          ]
+        ],
+        "boxes": [
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "targets": [
+          [
+            5,
+            2
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": []
+      },
+      {
+        "level_id": 4,
+        "title": "Level 4",
+        "grid_width": 8,
+        "grid_height": 8,
+        "walls": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            7,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            7,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            7,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            7,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            7,
+            6
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            7,
+            7
+          ]
+        ],
+        "boxes": [
+          [
+            2,
+            2
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "targets": [
+          [
+            6,
+            2
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            4
+          ]
+        ],
+        "player_start": [
+          1,
+          1
+        ],
+        "mechanics_active": []
+      }
+    ],
+    "primary_mechanic": "slide",
+    "theme_details": {
+      "color_scheme": "icy",
+      "player_emoji": "\ud83d\udc27",
+      "box_emoji": "\ud83e\uddca",
+      "target_emoji": "\ud83c\udfa3",
+      "wall_emoji": "\u2744\ufe0f",
+      "box_name": "ice block",
+      "target_name": "fishing hole",
+      "player_name": "penguin",
+      "win_message": "You've reached all the fishing holes! The penguin feasts tonight!"
+    }
+  },
+  "qa_report": {
+    "level_reports": [
+      {
+        "level_id": 1,
+        "solvable": true,
+        "min_moves": 3,
+        "solver_solution": [
+          "D",
+          "D",
+          "R"
+        ],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 1,
+        "issues": [
+          "Level is trivially easy (3 or fewer moves)"
+        ],
+        "states_explored": 4
+      },
+      {
+        "level_id": 2,
+        "solvable": true,
+        "min_moves": 2,
+        "solver_solution": [
+          "D",
+          "R"
+        ],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 1,
+        "issues": [
+          "Level is trivially easy (3 or fewer moves)"
+        ],
+        "states_explored": 2
+      },
+      {
+        "level_id": 3,
+        "solvable": true,
+        "min_moves": 8,
+        "solver_solution": [
+          "D",
+          "R",
+          "R",
+          "R",
+          "D",
+          "R",
+          "D",
+          "L"
+        ],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 2,
+        "issues": [],
+        "states_explored": 103
+      },
+      {
+        "level_id": 4,
+        "solvable": false,
+        "min_moves": -1,
+        "solver_solution": [],
+        "has_softlocks": false,
+        "softlock_positions": [],
+        "difficulty_rating": 0,
+        "issues": [],
+        "states_explored": 27008
+      }
+    ],
+    "difficulty_curve_monotonic": true,
+    "diversity_issues": [],
+    "summary": "3/4 levels solvable. Difficulty curve monotonic: True. Diversity issues: 0."
+  },
+  "routing_decisions": [
+    {
+      "level_id": 2,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (9 tiles, need 5). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    },
+    {
+      "level_id": 4,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (35 tiles, need 11). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    },
+    {
+      "level_id": 4,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (35 tiles, need 11). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    },
+    {
+      "level_id": 4,
+      "failure_type": "config_bug",
+      "reason": "Unsolvable despite adequate floor space (35 tiles, need 11). Likely a wall placement blocking the solution path",
+      "criteria_matched": "C2",
+      "routed_to": "debugger"
+    }
+  ],
+  "debug_patches": [
+    {
+      "level_id": 2,
+      "change_description": "Moved the box from (1, 2) to (2, 2) to make the puzzle solvable.",
+      "rationale": "The box was initially placed at (1, 2) which is directly adjacent to the player start position at (1, 1). This configuration made it impossible for the player to push the box to the target at (3, 2) because the player could not get behind the box. By moving the box to (2, 2), the player can now push it to the target.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 1,
+          "y": 2,
+          "old_type": "box",
+          "new_type": "floor"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "old_type": "floor",
+          "new_type": "box"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "patched_boxes": [
+        [
+          2,
+          2
+        ]
+      ],
+      "patched_targets": [
+        [
+          3,
+          2
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    },
+    {
+      "level_id": 4,
+      "change_description": "Moved a wall to open a path for the player to access all boxes and targets.",
+      "rationale": "The player was unable to access all boxes and targets due to a wall blocking the path. By moving the wall at (3, 3) to (3, 6), the player can now navigate the level and solve the puzzle.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 3,
+          "y": 3,
+          "old_type": "wall",
+          "new_type": "floor"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "old_type": "floor",
+          "new_type": "wall"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          7
+        ]
+      ],
+      "patched_boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "patched_targets": [
+        [
+          6,
+          2
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          5,
+          4
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    },
+    {
+      "level_id": 4,
+      "change_description": "Moved a wall to open a path for the player to reach all boxes and targets.",
+      "rationale": "The player was unable to reach the box at (3, 5) due to being blocked by walls. By moving the wall at (3, 6) to (2, 6), a path is opened for the player to access the box and complete the level.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 3,
+          "y": 6,
+          "old_type": "wall",
+          "new_type": "floor"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "old_type": "floor",
+          "new_type": "wall"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          7
+        ]
+      ],
+      "patched_boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "patched_targets": [
+        [
+          6,
+          2
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          5,
+          4
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    },
+    {
+      "level_id": 4,
+      "change_description": "Moved the box from (3, 5) to (3, 4) to make the level solvable.",
+      "rationale": "The box at (3, 5) was blocking the path to the target at (5, 4). By moving it to (3, 4), the player can now push it to the target.",
+      "tiles_modified": 1,
+      "changes": [
+        {
+          "x": 3,
+          "y": 5,
+          "old_type": "box",
+          "new_type": "floor"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "old_type": "floor",
+          "new_type": "box"
+        }
+      ],
+      "patched_walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          7
+        ]
+      ],
+      "patched_boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "patched_targets": [
+        [
+          6,
+          2
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          5,
+          4
+        ]
+      ],
+      "patched_player_start": [
+        1,
+        1
+      ]
+    }
+  ],
+  "debug_cycles_used": 3,
+  "total_tokens": 8538,
+  "pipeline_duration_seconds": 44.39
+}
