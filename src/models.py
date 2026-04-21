@@ -165,6 +165,7 @@ class LevelConfig(BaseModel):
     targets: List[Tuple[int, int]]
     player_start: Tuple[int, int]
     mechanics_active: List[str]
+    min_moves: Optional[int] = Field(default=None, description="BFS-computed shortest solution length; used for move limit")
 
 class GameConfig(BaseModel):
     """Complete game configuration for the template engine."""

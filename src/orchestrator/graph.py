@@ -81,6 +81,15 @@ def finalize_node(state: Dict[str, Any]) -> Dict[str, Any]:
     t0 = time.time()
     game_config = state.get("game_config")
 
+    # Inject min_moves from QA into each level so the HTML can enforce a move limit.
+    qa_report = state.get("qa_report") or {}
+    moves_by_id = {lr["level_id"]: lr.get("min_moves") for lr in qa_report.get("level_reports", [])}
+    if game_config and moves_by_id:
+        for lvl in game_config.get("levels", []):
+            mv = moves_by_id.get(lvl["level_id"])
+            if mv is not None and mv > 0:
+                lvl["min_moves"] = mv
+
     # Render HTML game
     html_output = ""
     if game_config:

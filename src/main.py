@@ -102,12 +102,27 @@ def run_demo(output_dir: str):
 
 
 def _embedded_demo_config(variant: str = "push") -> dict:
-    """Embedded demo config (fallback if sample files missing)."""
+    """Embedded demo config fallback -- loads harder sample JSON if present, otherwise
+    returns a minimal 3-level config. The canonical hard demos live in
+    outputs/sample_traces/sample_game_config.json and sample_slide_config.json."""
+    sample_file = "sample_slide_config.json" if variant == "slide" else "sample_game_config.json"
+    sample_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "outputs", "sample_traces", sample_file,
+    )
+    if os.path.exists(sample_path):
+        with open(sample_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    # Minimal fallback (solver-verified, harder than pre-Phase 3 defaults)
+    def border(w, h):
+        return ([[x,0] for x in range(w)] + [[x,h-1] for x in range(w)]
+              + [[0,y] for y in range(1,h-1)] + [[w-1,y] for y in range(1,h-1)])
+
     if variant == "slide":
         return {
             "game_title": "PuzzleForge: Arctic Expedition",
-            "puzzle_type": "sokoban",
-            "theme": "arctic expedition",
+            "puzzle_type": "sokoban", "theme": "arctic expedition",
             "win_condition": "Slide all ice blocks onto the fishing holes",
             "primary_mechanic": "slide",
             "theme_details": {
@@ -116,41 +131,29 @@ def _embedded_demo_config(variant: str = "push") -> dict:
                 "target_emoji": "\U0001F41F", "wall_emoji": "",
                 "box_name": "ice block", "target_name": "fishing hole",
                 "player_name": "penguin",
-                "win_message": "The penguin found all the fish!"
+                "win_message": "The penguin found all the fish!",
             },
             "levels": [
-                {
-                    "level_id": 1, "title": "Level 1 - First Slide",
-                    "grid_width": 5, "grid_height": 5,
-                    "walls": [[x,0] for x in range(5)] + [[x,4] for x in range(5)]
-                           + [[0,y] for y in range(5)] + [[4,y] for y in range(5)],
-                    "boxes": [[2,2]], "targets": [[3,1]], "player_start": [1,2],
-                    "mechanics_active": ["slide"],
-                },
-                {
-                    "level_id": 2, "title": "Level 2 - Wall Stopper",
-                    "grid_width": 6, "grid_height": 5,
-                    "walls": [[x,0] for x in range(6)] + [[x,4] for x in range(6)]
-                           + [[0,y] for y in range(5)] + [[5,y] for y in range(5)]
-                           + [[4,2]],
-                    "boxes": [[2,2]], "targets": [[3,1]], "player_start": [1,3],
-                    "mechanics_active": ["slide"],
-                },
-                {
-                    "level_id": 3, "title": "Level 3 - Two Ice Blocks",
-                    "grid_width": 7, "grid_height": 6,
-                    "walls": [[x,0] for x in range(7)] + [[x,5] for x in range(7)]
-                           + [[0,y] for y in range(6)] + [[6,y] for y in range(6)]
-                           + [[4,2],[2,4]],
-                    "boxes": [[2,2],[4,3]], "targets": [[5,1],[1,4]],
-                    "player_start": [3,3], "mechanics_active": ["slide"],
-                },
+                {"level_id": 1, "title": "Level 1 - First Tracks",
+                 "grid_width": 6, "grid_height": 6,
+                 "walls": border(6,6) + [[3,2]],
+                 "boxes": [[2,2],[3,3]], "targets": [[4,1],[1,4]],
+                 "player_start": [1,1], "mechanics_active": ["slide"], "min_moves": 9},
+                {"level_id": 2, "title": "Level 2 - Stoppers",
+                 "grid_width": 7, "grid_height": 7,
+                 "walls": border(7,7) + [[3,3],[3,4]],
+                 "boxes": [[2,2],[4,2]], "targets": [[5,1],[1,5]],
+                 "player_start": [3,5], "mechanics_active": ["slide"], "min_moves": 13},
+                {"level_id": 3, "title": "Level 3 - Frozen Lake",
+                 "grid_width": 8, "grid_height": 8,
+                 "walls": border(8,8) + [[4,3],[4,4],[3,5]],
+                 "boxes": [[2,2],[5,2]], "targets": [[6,1],[1,6]],
+                 "player_start": [4,6], "mechanics_active": ["slide"], "min_moves": 15},
             ],
         }
     return {
         "game_title": "PuzzleForge: Space Station",
-        "puzzle_type": "sokoban",
-        "theme": "space station",
+        "puzzle_type": "sokoban", "theme": "space station",
         "win_condition": "Push all cargo pods onto the docking bays",
         "primary_mechanic": "push",
         "theme_details": {
@@ -159,35 +162,24 @@ def _embedded_demo_config(variant: str = "push") -> dict:
             "target_emoji": "\U0001F537", "wall_emoji": "",
             "box_name": "cargo pod", "target_name": "docking bay",
             "player_name": "robot",
-            "win_message": "Cargo secured! Station operational!"
+            "win_message": "Cargo secured! Station operational!",
         },
         "levels": [
-            {
-                "level_id": 1, "title": "Level 1 - First Delivery",
-                "grid_width": 5, "grid_height": 5,
-                "walls": [[x,0] for x in range(5)] + [[x,4] for x in range(5)]
-                       + [[0,y] for y in range(5)] + [[4,y] for y in range(5)],
-                "boxes": [[2,2]], "targets": [[3,3]], "player_start": [1,1],
-                "mechanics_active": ["push"],
-            },
-            {
-                "level_id": 2, "title": "Level 2 - Around the Bulkhead",
-                "grid_width": 6, "grid_height": 5,
-                "walls": [[x,0] for x in range(6)] + [[x,4] for x in range(6)]
-                       + [[0,y] for y in range(5)] + [[5,y] for y in range(5)]
-                       + [[3,2]],
-                "boxes": [[2,2]], "targets": [[4,3]], "player_start": [1,1],
-                "mechanics_active": ["push"],
-            },
-            {
-                "level_id": 3, "title": "Level 3 - Twin Pods",
-                "grid_width": 7, "grid_height": 6,
-                "walls": [[x,0] for x in range(7)] + [[x,5] for x in range(7)]
-                       + [[0,y] for y in range(6)] + [[6,y] for y in range(6)]
-                       + [[3,1],[3,2]],
-                "boxes": [[2,2],[4,3]], "targets": [[5,2],[5,4]],
-                "player_start": [1,3], "mechanics_active": ["push"],
-            },
+            {"level_id": 1, "title": "Level 1 - Gateway",
+             "grid_width": 6, "grid_height": 6,
+             "walls": border(6,6) + [[3,2]],
+             "boxes": [[2,2],[2,3]], "targets": [[4,3],[4,4]],
+             "player_start": [1,1], "mechanics_active": ["push"], "min_moves": 15},
+            {"level_id": 2, "title": "Level 2 - Service Corridor",
+             "grid_width": 7, "grid_height": 7,
+             "walls": border(7,7) + [[4,2],[4,3]],
+             "boxes": [[2,2],[3,5]], "targets": [[5,5],[5,1]],
+             "player_start": [1,1], "mechanics_active": ["push"], "min_moves": 15},
+            {"level_id": 3, "title": "Level 3 - Docking Array",
+             "grid_width": 8, "grid_height": 8,
+             "walls": border(8,8) + [[3,3],[4,4]],
+             "boxes": [[2,2],[5,2],[2,5]], "targets": [[6,6],[1,6],[6,1]],
+             "player_start": [1,1], "mechanics_active": ["push"], "min_moves": 24},
         ],
     }
 

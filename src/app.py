@@ -128,7 +128,6 @@ with tabs[0]:
             else:
                 from src.main import _embedded_demo_config
                 game_config = _embedded_demo_config(variant=demo_variant)
-            html = render_game(game_config)
             # Run BFS solver on demo levels to produce QA report
             mechanic = game_config.get("primary_mechanic", "push")
             level_reports = []
@@ -146,6 +145,10 @@ with tabs[0]:
                 r = solver.solve()
                 grid_area = lvl["grid_width"] * lvl["grid_height"]
                 diff = estimate_difficulty(r.min_moves or 0, r.states_explored or 0, grid_area)
+                # Inject min_moves into level so HTML move-limit feature works
+                # even if the sample JSON did not include min_moves.
+                if r.min_moves and r.min_moves > 0:
+                    lvl["min_moves"] = r.min_moves
                 level_reports.append({
                     "level_id": lvl["level_id"],
                     "solvable": r.solvable is True,
@@ -159,6 +162,8 @@ with tabs[0]:
                 "summary": f"{solvable_count}/{len(level_reports)} levels solvable",
                 "level_reports": level_reports,
             }
+            # Render AFTER min_moves are populated, so the move limit is baked into the HTML
+            html = render_game(game_config)
             st.session_state["game_config"] = game_config
             st.session_state["game_html"] = html
             st.session_state["trace"] = _demo_trace()

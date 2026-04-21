@@ -40,6 +40,11 @@ CONSTRAINTS:
 - Choose EXACTLY ONE mechanic: "push" or "slide" (not both)
 - level_count must be exactly {level_count}
 - progression_plan should increase complexity through LAYOUT difficulty
+- Difficulty targets (the game should be CHALLENGING, not trivial):
+  * Level 1: brief tutorial, 2 boxes, small but non-trivial (complexity_target: "tutorial")
+  * Middle levels: 2-3 boxes, interior obstacles (complexity_target: "intermediate" / "multi-room")
+  * Final level(s): 4-5 boxes, complex maze layout (complexity_target: "challenge" / "expert")
+- Do NOT plan trivial 1-box levels. The player should feel meaningful difficulty progression.
 
 OUTPUT FORMAT: Return ONLY valid JSON matching this schema:
 {{

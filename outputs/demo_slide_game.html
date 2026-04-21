@@ -70,8 +70,9 @@
 
 <div class="info-bar">
   <div>Level: <span id="level-num">1</span> / <span id="total-levels">5</span></div>
-  <div>Moves: <span id="moves">0</span></div>
+  <div>Moves: <span id="moves">0</span> / <span id="move-limit">-</span></div>
   <div>Pushes: <span id="pushes">0</span></div>
+  <div>Best: <span id="best-moves">-</span></div>
 </div>
 
 <div id="game-grid"></div>
@@ -120,202 +121,8 @@ const CONFIG = {
   "levels": [
     {
       "level_id": 1,
-      "title": "Level 1 -- First Slide",
-      "grid_width": 5,
-      "grid_height": 5,
-      "walls": [
-        [
-          0,
-          0
-        ],
-        [
-          1,
-          0
-        ],
-        [
-          2,
-          0
-        ],
-        [
-          3,
-          0
-        ],
-        [
-          4,
-          0
-        ],
-        [
-          0,
-          1
-        ],
-        [
-          4,
-          1
-        ],
-        [
-          0,
-          2
-        ],
-        [
-          4,
-          2
-        ],
-        [
-          0,
-          3
-        ],
-        [
-          4,
-          3
-        ],
-        [
-          0,
-          4
-        ],
-        [
-          1,
-          4
-        ],
-        [
-          2,
-          4
-        ],
-        [
-          3,
-          4
-        ],
-        [
-          4,
-          4
-        ]
-      ],
-      "boxes": [
-        [
-          2,
-          2
-        ]
-      ],
-      "targets": [
-        [
-          3,
-          1
-        ]
-      ],
-      "player_start": [
-        1,
-        2
-      ],
-      "mechanics_active": [
-        "slide"
-      ]
-    },
-    {
-      "level_id": 2,
-      "title": "Level 2 -- Wall Stopper",
+      "title": "Level 1 - First Tracks",
       "grid_width": 6,
-      "grid_height": 5,
-      "walls": [
-        [
-          0,
-          0
-        ],
-        [
-          1,
-          0
-        ],
-        [
-          2,
-          0
-        ],
-        [
-          3,
-          0
-        ],
-        [
-          4,
-          0
-        ],
-        [
-          5,
-          0
-        ],
-        [
-          0,
-          1
-        ],
-        [
-          5,
-          1
-        ],
-        [
-          0,
-          2
-        ],
-        [
-          4,
-          2
-        ],
-        [
-          5,
-          2
-        ],
-        [
-          0,
-          3
-        ],
-        [
-          5,
-          3
-        ],
-        [
-          0,
-          4
-        ],
-        [
-          1,
-          4
-        ],
-        [
-          2,
-          4
-        ],
-        [
-          3,
-          4
-        ],
-        [
-          4,
-          4
-        ],
-        [
-          5,
-          4
-        ]
-      ],
-      "boxes": [
-        [
-          2,
-          2
-        ]
-      ],
-      "targets": [
-        [
-          3,
-          1
-        ]
-      ],
-      "player_start": [
-        1,
-        3
-      ],
-      "mechanics_active": [
-        "slide"
-      ]
-    },
-    {
-      "level_id": 3,
-      "title": "Level 3 -- Two Ice Blocks",
-      "grid_width": 7,
       "grid_height": 6,
       "walls": [
         [
@@ -343,50 +150,6 @@ const CONFIG = {
           0
         ],
         [
-          6,
-          0
-        ],
-        [
-          0,
-          1
-        ],
-        [
-          6,
-          1
-        ],
-        [
-          0,
-          2
-        ],
-        [
-          4,
-          2
-        ],
-        [
-          6,
-          2
-        ],
-        [
-          0,
-          3
-        ],
-        [
-          6,
-          3
-        ],
-        [
-          0,
-          4
-        ],
-        [
-          2,
-          4
-        ],
-        [
-          6,
-          4
-        ],
-        [
           0,
           5
         ],
@@ -411,8 +174,40 @@ const CONFIG = {
           5
         ],
         [
-          6,
-          5
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          2
         ]
       ],
       "boxes": [
@@ -421,13 +216,13 @@ const CONFIG = {
           2
         ],
         [
-          4,
+          3,
           3
         ]
       ],
       "targets": [
         [
-          5,
+          4,
           1
         ],
         [
@@ -436,16 +231,17 @@ const CONFIG = {
         ]
       ],
       "player_start": [
-        3,
-        3
+        1,
+        1
       ],
       "mechanics_active": [
         "slide"
-      ]
+      ],
+      "min_moves": 9
     },
     {
-      "level_id": 4,
-      "title": "Level 4 -- Frozen Maze",
+      "level_id": 2,
+      "title": "Level 2 - Stoppers",
       "grid_width": 7,
       "grid_height": 7,
       "walls": [
@@ -479,54 +275,6 @@ const CONFIG = {
         ],
         [
           0,
-          1
-        ],
-        [
-          6,
-          1
-        ],
-        [
-          0,
-          2
-        ],
-        [
-          5,
-          2
-        ],
-        [
-          6,
-          2
-        ],
-        [
-          0,
-          3
-        ],
-        [
-          3,
-          3
-        ],
-        [
-          6,
-          3
-        ],
-        [
-          0,
-          4
-        ],
-        [
-          6,
-          4
-        ],
-        [
-          0,
-          5
-        ],
-        [
-          6,
-          5
-        ],
-        [
-          0,
           6
         ],
         [
@@ -552,6 +300,54 @@ const CONFIG = {
         [
           6,
           6
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
         ]
       ],
       "boxes": [
@@ -561,7 +357,7 @@ const CONFIG = {
         ],
         [
           4,
-          4
+          2
         ]
       ],
       "targets": [
@@ -576,17 +372,18 @@ const CONFIG = {
       ],
       "player_start": [
         3,
-        4
+        5
       ],
       "mechanics_active": [
         "slide"
-      ]
+      ],
+      "min_moves": 13
     },
     {
-      "level_id": 5,
-      "title": "Level 5 -- Blizzard",
+      "level_id": 3,
+      "title": "Level 3 - Frozen Lake",
       "grid_width": 8,
-      "grid_height": 7,
+      "grid_height": 8,
       "walls": [
         [
           0,
@@ -622,87 +419,95 @@ const CONFIG = {
         ],
         [
           0,
-          1
-        ],
-        [
-          7,
-          1
-        ],
-        [
-          0,
-          2
-        ],
-        [
-          4,
-          2
-        ],
-        [
-          7,
-          2
-        ],
-        [
-          0,
-          3
-        ],
-        [
-          7,
-          3
-        ],
-        [
-          0,
-          4
-        ],
-        [
-          3,
-          4
-        ],
-        [
-          6,
-          4
-        ],
-        [
-          7,
-          4
-        ],
-        [
-          0,
-          5
-        ],
-        [
-          7,
-          5
-        ],
-        [
-          0,
-          6
+          7
         ],
         [
           1,
-          6
+          7
         ],
         [
           2,
-          6
+          7
         ],
         [
           3,
-          6
+          7
         ],
         [
           4,
-          6
+          7
         ],
         [
           5,
-          6
+          7
         ],
         [
           6,
+          7
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
           6
         ],
         [
           7,
+          1
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
           6
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          3,
+          5
         ]
       ],
       "boxes": [
@@ -712,10 +517,174 @@ const CONFIG = {
         ],
         [
           5,
-          3
+          2
+        ]
+      ],
+      "targets": [
+        [
+          6,
+          1
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "player_start": [
+        4,
+        6
+      ],
+      "mechanics_active": [
+        "slide"
+      ],
+      "min_moves": 15
+    },
+    {
+      "level_id": 4,
+      "title": "Level 4 - Ice Maze",
+      "grid_width": 8,
+      "grid_height": 8,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
         ],
         [
           2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          4,
           4
         ]
       ],
@@ -725,12 +694,12 @@ const CONFIG = {
           1
         ],
         [
-          6,
-          3
+          1,
+          6
         ],
         [
-          1,
-          5
+          6,
+          6
         ]
       ],
       "player_start": [
@@ -739,7 +708,200 @@ const CONFIG = {
       ],
       "mechanics_active": [
         "slide"
-      ]
+      ],
+      "min_moves": 21
+    },
+    {
+      "level_id": 5,
+      "title": "Level 5 - Blizzard",
+      "grid_width": 9,
+      "grid_height": 9,
+      "walls": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          8,
+          3
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "boxes": [
+        [
+          2,
+          2
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "targets": [
+        [
+          7,
+          1
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          7,
+          7
+        ]
+      ],
+      "player_start": [
+        4,
+        1
+      ],
+      "mechanics_active": [
+        "slide"
+      ],
+      "min_moves": 26
     }
   ]
 };
@@ -801,7 +963,7 @@ if (mechanic === "slide") {
 }
 
 let currentLevel = 0;
-let grid, playerPos, moveCount, pushCount, history, won;
+let grid, playerPos, moveCount, pushCount, history, won, lost, moveLimit, bestMoves;
 
 function initLevel(idx) {
   currentLevel = idx;
@@ -813,10 +975,14 @@ function initLevel(idx) {
 
   grid = { W, H, walls: wallSet, boxes: boxList, targets: targetSet };
   playerPos = [lvl.player_start[0], lvl.player_start[1]];
-  moveCount = 0; pushCount = 0; history = []; won = false;
+  moveCount = 0; pushCount = 0; history = []; won = false; lost = false;
+  bestMoves = (typeof lvl.min_moves === "number" && lvl.min_moves > 0) ? lvl.min_moves : null;
+  moveLimit = bestMoves ? bestMoves + 2 : null;
 
   document.getElementById('level-num').textContent = idx + 1;
   document.getElementById('total-levels').textContent = levels.length;
+  document.getElementById('move-limit').textContent = moveLimit !== null ? moveLimit : '∞';
+  document.getElementById('best-moves').textContent = bestMoves !== null ? bestMoves : '-';
   document.getElementById('message').textContent = '';
   render();
   styleButtons();
@@ -878,7 +1044,7 @@ function render() {
 }
 
 function move(dx, dy) {
-  if (won) return;
+  if (won || lost) return;
   const nx = playerPos[0]+dx, ny = playerPos[1]+dy;
   const key = nx+','+ny;
   if (grid.walls.has(key)) return;
@@ -931,6 +1097,7 @@ function move(dx, dy) {
   if (pushed) pushCount++;
   render();
   checkWin();
+  if (!won) checkLose();
 }
 
 function checkWin() {
@@ -939,11 +1106,24 @@ function checkWin() {
     won = true;
     const msg = document.getElementById('message');
     msg.style.color = theme.win;
+    const suffix = bestMoves !== null
+      ? ` (${moveCount} moves, par ${bestMoves})`
+      : ` (${moveCount} moves)`;
     if (currentLevel < levels.length - 1) {
-      msg.textContent = WIN_MSG + ` (${moveCount} moves) - Press Next!`;
+      msg.textContent = WIN_MSG + suffix + ' - Press Next!';
     } else {
-      msg.textContent = `Congratulations! All levels completed!`;
+      msg.textContent = 'Congratulations! All levels completed!' + suffix;
     }
+  }
+}
+
+function checkLose() {
+  if (moveLimit === null) return;
+  if (moveCount >= moveLimit) {
+    lost = true;
+    const msg = document.getElementById('message');
+    msg.style.color = theme.accent;
+    msg.textContent = `Out of moves! Limit was ${moveLimit} (par ${bestMoves} + 2). Press Reset (R) to try again.`;
   }
 }
 
@@ -953,6 +1133,8 @@ function undo() {
   playerPos = [prev.px, prev.py];
   grid.boxes = prev.boxes;
   moveCount = prev.mc; pushCount = prev.pc;
+  lost = false;
+  document.getElementById('message').textContent = '';
   render();
 }
 

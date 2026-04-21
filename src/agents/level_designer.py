@@ -34,14 +34,23 @@ MECHANICS:
   * A box in an open corridor with no wall behind it will slide past the target.
 
 CONSTRAINTS:
-- Grid sizes: 4x4 minimum, 15x15 maximum. VARY dimensions across levels.
+- Grid sizes: 6x6 minimum, 15x15 maximum. VARY dimensions across levels.
 - Number of boxes must equal number of targets in each level.
 - Player start must be on an empty floor tile (not a wall, box, or target).
 - Walls must form the outer boundary of the grid (all edge tiles are walls).
 - Every level must include an intended_solution: a list of moves (U/D/L/R) that the designer
   believes solves the level. The automated solver will verify this independently.
-- Early levels: fewer boxes (1-2), smaller grids. Later levels: more boxes (3-4), larger grids.
 - Do NOT repeat the same wall patterns across levels.
+
+DIFFICULTY TARGETS (the game should be CHALLENGING, not trivial):
+- Level 1 (tutorial): 6x6 grid, 2 boxes, minimum 12-move solution
+- Level 2: 7x7 grid, 2 boxes, add interior walls/obstacles, minimum 18-move solution
+- Level 3: 8x8 grid, 3 boxes, multi-room layout, minimum 25-move solution
+- Level 4: 9x9 grid, 3-4 boxes, complex interior maze, minimum 35-move solution
+- Level 5+ (challenge): 10x10+ grid, 4-5 boxes, tight corridors, minimum 45-move solution
+- Use interior walls to create real puzzles: choke points, rooms, narrow corridors, diversions.
+- Place boxes and targets so the player must PLAN order of operations (not just push straight).
+- A level with a 5-move solution is too easy -- iterate until you have meaningful depth.
 
 COORDINATE SYSTEM: (0,0) is top-left. X increases rightward, Y increases downward.
 
@@ -103,9 +112,11 @@ def level_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
         f"Primary mechanic: {primary_mechanic}\n"
         f"Mechanics: {json.dumps(game_spec['mechanics'])}\n"
         f"Progression plan: {json.dumps(game_spec['progression_plan'])}\n\n"
-        f"Design levels with increasing difficulty. The first level should be a simple "
-        f"tutorial (5x5 grid, 1 box). The last level should be challenging (8x8+ grid, "
-        f"3-4 boxes). Scale grid size and box count gradually across all levels.\n"
+        f"Design levels with steep, meaningful difficulty progression. The first level is a "
+        f"BRIEF tutorial (6x6 grid, 2 boxes, 10+ moves). Every subsequent level should force the "
+        f"player to think -- longer paths, more boxes, multi-room layouts, interior obstacles. "
+        f"The final level must be a genuine challenge (10x10+ grid, 4-5 boxes, 40+ moves, "
+        f"complex interior maze). Do NOT produce trivial 1-box levels solvable in under 10 moves.\n"
         f"Make sure walls include all border tiles and that each level has a valid intended solution."
         f"{mechanic_guidance}"
     )
