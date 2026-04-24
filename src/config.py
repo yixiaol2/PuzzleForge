@@ -21,7 +21,9 @@ PIPELINE_TIMEOUT_SECONDS = 300  # 5 minutes wall-clock
 DEFAULT_LEVEL_COUNT = 5
 
 # Solver constraints
-SOLVER_MAX_STATES = 200_000
+# The Phase 3 push demo's hardest level needs ~243K states; keep the cap above
+# that known-good case while still bounding pathological searches.
+SOLVER_MAX_STATES = 500_000
 SOLVER_TIMEOUT_SECONDS = 10
 MAX_GRID_SIZE = 15
 

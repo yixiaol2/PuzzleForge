@@ -3,7 +3,7 @@ PuzzleForge -- Developer / Orchestrator Agent (Implementation Layer)
 
 Purpose: Translate design into game config for the template engine. Manage handoffs
          and routing between agents. Enforce budget/iteration caps.
-Tools:   Template engine integration, state management, trace logging. LLM at temp 0.4.
+Tools:   Template engine integration, state management, trace logging.
 Hard:    Never exceed 3 debug cycles. Never exceed 80K token budget. Never skip QA.
 Soft:    Stop early if all levels pass QA. Prefer minimal config changes over full redesigns.
 """
@@ -95,7 +95,13 @@ def developer_apply_patches_node(state: Dict[str, Any]) -> Dict[str, Any]:
     # Patches accumulate via operator.add across cycles, so we filter
     # by the level IDs that were just routed to the Debugger this cycle.
     failed_ids = set(state.get("failed_level_ids", []))
-    recent_patches = [p for p in patches if p.get("level_id") in failed_ids]
+    # Patches are append-only across cycles; for a still-failing level, only
+    # the most recent patch should be applied in this cycle.
+    recent_by_level = {}
+    for patch in patches:
+        if patch.get("level_id") in failed_ids:
+            recent_by_level[patch["level_id"]] = patch
+    recent_patches = list(recent_by_level.values())
     if not recent_patches:
         return {}
 

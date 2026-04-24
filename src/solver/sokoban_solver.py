@@ -55,7 +55,7 @@ class SokobanSolver:
         boxes: List[Tuple[int, int]],
         targets: List[Tuple[int, int]],
         player_start: Tuple[int, int],
-        max_states: int = 200_000,
+        max_states: int = 500_000,
         mechanic: str = "push",
     ):
         self.width = grid_width

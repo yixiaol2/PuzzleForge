@@ -34,7 +34,7 @@ MECHANICS:
   * A box in an open corridor with no wall behind it will slide past the target.
 
 CONSTRAINTS:
-- Grid sizes: 6x6 minimum, 15x15 maximum. VARY dimensions across levels.
+- Grid sizes: 5x5 minimum, 15x15 maximum. VARY dimensions across levels.
 - Number of boxes must equal number of targets in each level.
 - Player start must be on an empty floor tile (not a wall, box, or target).
 - Walls must form the outer boundary of the grid (all edge tiles are walls).
@@ -43,7 +43,7 @@ CONSTRAINTS:
 - Do NOT repeat the same wall patterns across levels.
 
 DIFFICULTY TARGETS (the game should be CHALLENGING, not trivial):
-- Level 1 (tutorial): 6x6 grid, 2 boxes, minimum 12-move solution
+- Level 1 (tutorial): 5x5 or 6x6 grid, 1-2 boxes, minimum 8-move solution
 - Level 2: 7x7 grid, 2 boxes, add interior walls/obstacles, minimum 18-move solution
 - Level 3: 8x8 grid, 3 boxes, multi-room layout, minimum 25-move solution
 - Level 4: 9x9 grid, 3-4 boxes, complex interior maze, minimum 35-move solution
@@ -70,6 +70,53 @@ OUTPUT FORMAT: Return a JSON array of level definitions:
 ]
 
 Important: walls MUST include ALL border tiles. Interior walls are optional obstacles."""
+
+
+def _coerce_level_payload(parsed: Any) -> List[Any]:
+    """Normalize common LLM JSON shapes to a list of level payloads."""
+    if isinstance(parsed, list):
+        return parsed
+    if isinstance(parsed, dict):
+        return parsed.get("levels", [parsed])
+    return [parsed]
+
+
+def _parse_level_response(raw_content: str, expected_count: int) -> List[Dict[str, Any]]:
+    """Parse and validate an LLM level response, including the requested count."""
+    parsed = parse_json_response(raw_content)
+    payloads = _coerce_level_payload(parsed)
+    levels = [LevelDefinition(**lvl).model_dump() for lvl in payloads]
+    expected_ids = set(range(1, expected_count + 1))
+    actual_ids = [lvl["level_id"] for lvl in levels]
+    if set(actual_ids) != expected_ids or len(actual_ids) != expected_count:
+        raise ValueError(
+            f"Expected exactly levels 1..{expected_count}; got IDs {actual_ids}"
+        )
+    return sorted(levels, key=lambda l: l["level_id"])
+
+
+def _failure_response(
+    state: Dict[str, Any],
+    t0: float,
+    action: str,
+    reason: str,
+    tokens: int = 0,
+) -> Dict[str, Any]:
+    """Return a transparent terminal failure instead of silently continuing."""
+    trace = make_trace_entry(
+        step=len(state.get("trace_log", [])) + 1,
+        agent="Level Designer",
+        action=action,
+        input_summary="Level generation failed validation",
+        output_summary=reason[:180],
+        tokens_used=tokens,
+        duration_seconds=time.time() - t0,
+    )
+    return {
+        "pipeline_status": "generation_failed",
+        "trace_log": [trace],
+        "total_tokens": state.get("total_tokens", 0) + tokens,
+    }
 
 
 def level_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
@@ -113,7 +160,7 @@ def level_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
         f"Mechanics: {json.dumps(game_spec['mechanics'])}\n"
         f"Progression plan: {json.dumps(game_spec['progression_plan'])}\n\n"
         f"Design levels with steep, meaningful difficulty progression. The first level is a "
-        f"BRIEF tutorial (6x6 grid, 2 boxes, 10+ moves). Every subsequent level should force the "
+        f"BRIEF tutorial (5x5 or 6x6 grid, 1-2 boxes, 8+ moves). Every subsequent level should force the "
         f"player to think -- longer paths, more boxes, multi-room layouts, interior obstacles. "
         f"The final level must be a genuine challenge (10x10+ grid, 4-5 boxes, 40+ moves, "
         f"complex interior maze). Do NOT produce trivial 1-box levels solvable in under 10 moves.\n"
@@ -135,28 +182,36 @@ def level_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
         ]}
 
     tokens = result["tokens_used"]
+    expected_count = game_spec["level_count"]
     try:
-        parsed = parse_json_response(result["content"])
-        if not isinstance(parsed, list):
-            parsed = parsed.get("levels", [parsed])
-        levels = [LevelDefinition(**lvl).model_dump() for lvl in parsed]
+        levels = _parse_level_response(result["content"], expected_count)
         grids = [str(l["grid_width"]) + "x" + str(l["grid_height"]) for l in levels]
         output_summary = f"Designed {len(levels)} levels, grids: {grids}"
     except Exception as e:
         try:
-            retry_prompt = f"Previous output was invalid: {e}. Return ONLY a valid JSON array of level definitions."
+            retry_prompt = (
+                f"Previous output was invalid or incomplete: {e}.\n\n"
+                f"Return ONLY a valid JSON array with exactly {expected_count} levels, "
+                f"with level_id values 1 through {expected_count}. Do not omit levels. "
+                f"Each level must include all required fields and all border walls."
+            )
             result2 = call_llm(SYSTEM_PROMPT, retry_prompt, TEMP_LEVEL_DESIGNER, 4000)
             tokens += result2["tokens_used"]
-            parsed = parse_json_response(result2["content"])
-            if not isinstance(parsed, list):
-                parsed = parsed.get("levels", [parsed])
-            levels = [LevelDefinition(**lvl).model_dump() for lvl in parsed]
+            levels = _parse_level_response(result2["content"], expected_count)
             output_summary = f"Designed {len(levels)} levels (retry)"
         except BudgetExceededError:
             return {"pipeline_status": "budget_exceeded", "trace_log": [
                 make_trace_entry(0, "Level Designer", "budget_exceeded",
                                  "Token budget exhausted during retry", "", tokens, 0)
             ]}
+        except Exception as retry_error:
+            return _failure_response(
+                state,
+                t0,
+                "design_all_levels_failed",
+                f"Retry failed validation: {retry_error}",
+                tokens,
+            )
 
     duration = time.time() - t0
     trace = make_trace_entry(
@@ -249,9 +304,15 @@ def _redesign_levels(state: Dict[str, Any], redesign_ids: List[int], t0: float) 
 
     try:
         parsed = parse_json_response(result["content"])
-        if not isinstance(parsed, list):
-            parsed = parsed.get("levels", [parsed]) if isinstance(parsed, dict) else [parsed]
-        new_levels = [LevelDefinition(**lvl).model_dump() for lvl in parsed]
+        payloads = _coerce_level_payload(parsed)
+        new_levels = [LevelDefinition(**lvl).model_dump() for lvl in payloads]
+        returned_ids = {lvl["level_id"] for lvl in new_levels}
+        expected_ids = set(redesign_ids)
+        if returned_ids != expected_ids:
+            raise ValueError(
+                f"Expected redesigned level IDs {sorted(expected_ids)}; "
+                f"got {sorted(returned_ids)}"
+            )
     except Exception as e:
         # Retry with error feedback instead of silently failing
         try:
@@ -265,16 +326,28 @@ def _redesign_levels(state: Dict[str, Any], redesign_ids: List[int], t0: float) 
             result2 = call_llm(SYSTEM_PROMPT, retry_prompt, TEMP_LEVEL_DESIGNER, 3000)
             tokens += result2["tokens_used"]
             parsed = parse_json_response(result2["content"])
-            if not isinstance(parsed, list):
-                parsed = parsed.get("levels", [parsed]) if isinstance(parsed, dict) else [parsed]
-            new_levels = [LevelDefinition(**lvl).model_dump() for lvl in parsed]
+            payloads = _coerce_level_payload(parsed)
+            new_levels = [LevelDefinition(**lvl).model_dump() for lvl in payloads]
+            returned_ids = {lvl["level_id"] for lvl in new_levels}
+            expected_ids = set(redesign_ids)
+            if returned_ids != expected_ids:
+                raise ValueError(
+                    f"Expected redesigned level IDs {sorted(expected_ids)}; "
+                    f"got {sorted(returned_ids)}"
+                )
         except BudgetExceededError:
             return {"pipeline_status": "budget_exceeded", "trace_log": [
                 make_trace_entry(0, "Level Designer", "budget_exceeded",
                                  "Token budget exhausted during redesign retry", "", tokens, 0)
             ]}
-        except Exception:
-            new_levels = []
+        except Exception as retry_error:
+            return _failure_response(
+                state,
+                t0,
+                "redesign_levels_failed",
+                f"Retry failed validation: {retry_error}",
+                tokens,
+            )
 
     # Merge: replace redesigned levels, keep others
     redesigned_ids = {l["level_id"] for l in new_levels}

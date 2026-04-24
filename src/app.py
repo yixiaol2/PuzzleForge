@@ -19,45 +19,35 @@ import streamlit as st
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def _demo_trace() -> list:
-    """Generate a demo trace for display purposes."""
+def _demo_trace(game_config: dict) -> list:
+    """Generate a demo trace that matches the loaded bundled demo."""
+    levels = game_config.get("levels", [])
+    mechanic = game_config.get("primary_mechanic", "push")
+    theme = game_config.get("theme", "demo")
+    grids = [f"{lvl['grid_width']}x{lvl['grid_height']}" for lvl in levels]
+    min_moves = [lvl.get("min_moves") for lvl in levels]
+    title = game_config.get("game_title", "PuzzleForge Demo")
     return [
-        {"step": 1, "agent": "Game Designer", "action": "generate_game_spec",
-         "input_summary": "User concept: A robot organizing cargo pods in a space station",
-         "output_summary": "Generated spec: sokoban, theme='space station', mechanic=push, 5 levels",
-         "tokens_used": 1250, "duration_seconds": 2.3, "timestamp": "2026-04-05T14:30:00"},
-        {"step": 2, "agent": "Level Designer", "action": "design_all_levels",
-         "input_summary": "Game spec: space station, 5 levels, mechanic: push",
-         "output_summary": "Designed 5 levels, grids: ['5x5', '6x5', '7x6', '7x7', '8x7']",
-         "tokens_used": 2800, "duration_seconds": 4.1, "timestamp": "2026-04-05T14:30:03"},
+        {"step": 1, "agent": "Game Designer", "action": "load_demo_spec",
+         "input_summary": f"Bundled demo: {title}",
+         "output_summary": f"Loaded {theme} spec, mechanic={mechanic}, {len(levels)} levels",
+         "tokens_used": 0, "duration_seconds": 0.0, "timestamp": "2026-04-14T20:38:31"},
+        {"step": 2, "agent": "Level Designer", "action": "load_demo_levels",
+         "input_summary": f"{theme} {mechanic} demo",
+         "output_summary": f"Loaded {len(levels)} solver-verified demo levels, grids: {grids}",
+         "tokens_used": 0, "duration_seconds": 0.0, "timestamp": "2026-04-14T20:38:32"},
         {"step": 3, "agent": "Developer", "action": "translate_to_config",
-         "input_summary": "Translating 5 level defs + game spec",
-         "output_summary": "Produced GameConfig with 5 levels",
-         "tokens_used": 0, "duration_seconds": 0.01, "timestamp": "2026-04-05T14:30:07"},
+         "input_summary": "Bundled demo config already in GameConfig format",
+         "output_summary": f"Produced GameConfig with {len(levels)} levels",
+         "tokens_used": 0, "duration_seconds": 0.0, "timestamp": "2026-04-14T20:38:32"},
         {"step": 4, "agent": "QA Tester", "action": "test_all_levels",
-         "input_summary": "Testing 5 levels from game config",
-         "output_summary": "4/5 levels solvable. Difficulty curve monotonic: True. Diversity issues: 0.",
-         "tokens_used": 0, "duration_seconds": 0.5, "timestamp": "2026-04-05T14:30:07"},
-        {"step": 5, "agent": "Developer", "action": "classify_and_route_failures",
-         "input_summary": "Classifying 1 failed levels",
-         "output_summary": "Config bugs: [3], Design flaws: []",
-         "tokens_used": 0, "duration_seconds": 0.01, "timestamp": "2026-04-05T14:30:08"},
-        {"step": 6, "agent": "Debugger", "action": "fix_config_bugs",
-         "input_summary": "Fixing levels [3] flagged as config bugs",
-         "output_summary": "Debugger processed 1 levels: 1 patched, 0 escalated to redesign",
-         "tokens_used": 850, "duration_seconds": 1.8, "timestamp": "2026-04-05T14:30:08"},
-        {"step": 7, "agent": "Developer", "action": "apply_debug_patches",
-         "input_summary": "Applying 1 patches",
-         "output_summary": "Patched levels: [3]",
-         "tokens_used": 0, "duration_seconds": 0.01, "timestamp": "2026-04-05T14:30:10"},
-        {"step": 8, "agent": "QA Tester", "action": "test_all_levels",
-         "input_summary": "Testing 5 levels from game config (re-test after debug)",
-         "output_summary": "5/5 levels solvable. Difficulty curve monotonic: True. Diversity issues: 0.",
-         "tokens_used": 0, "duration_seconds": 0.4, "timestamp": "2026-04-05T14:30:10"},
-        {"step": 9, "agent": "Developer", "action": "finalize_game",
-         "input_summary": "Packaging final game output",
-         "output_summary": "HTML: 4823 chars, design doc compiled",
-         "tokens_used": 0, "duration_seconds": 0.02, "timestamp": "2026-04-05T14:30:11"},
+         "input_summary": f"Testing {len(levels)} bundled demo levels via BFS solver",
+         "output_summary": f"{len(levels)}/{len(levels)} levels solvable. Min moves: {min_moves}. Diversity issues: 0.",
+         "tokens_used": 0, "duration_seconds": 0.0, "timestamp": "2026-04-14T20:38:37"},
+        {"step": 5, "agent": "Developer", "action": "finalize_game",
+         "input_summary": "All bundled demo levels passed QA. Packaging final game.",
+         "output_summary": "Generated demo HTML with move limits from BFS min_moves. Total tokens: 0.",
+         "tokens_used": 0, "duration_seconds": 0.01, "timestamp": "2026-04-14T20:38:37"},
     ]
 
 
@@ -114,6 +104,7 @@ with tabs[0]:
     if demo_variant:
         with st.spinner("Loading demo game..."):
             from src.engine.template_engine import render_game
+            from src.config import SOLVER_MAX_STATES
             from src.solver.sokoban_solver import SokobanSolver, estimate_difficulty
             # Try loading from sample file first
             sample_file = "sample_slide_config.json" if demo_variant == "slide" else "sample_game_config.json"
@@ -139,7 +130,7 @@ with tabs[0]:
                     boxes=[tuple(b) for b in lvl["boxes"]],
                     targets=[tuple(t) for t in lvl["targets"]],
                     player_start=tuple(lvl["player_start"]),
-                    max_states=200_000,
+                    max_states=SOLVER_MAX_STATES,
                     mechanic=mechanic,
                 )
                 r = solver.solve()
@@ -151,13 +142,13 @@ with tabs[0]:
                     lvl["min_moves"] = r.min_moves
                 level_reports.append({
                     "level_id": lvl["level_id"],
-                    "solvable": r.solvable is True,
+                    "solvable": r.solvable,
                     "min_moves": r.min_moves or -1,
                     "states_explored": r.states_explored or 0,
                     "difficulty_rating": diff,
-                    "issues": [],
+                    "issues": ["Solver timed out"] if r.timeout else [],
                 })
-            solvable_count = sum(1 for lr in level_reports if lr["solvable"])
+            solvable_count = sum(1 for lr in level_reports if lr["solvable"] is True)
             qa_report = {
                 "summary": f"{solvable_count}/{len(level_reports)} levels solvable",
                 "level_reports": level_reports,
@@ -166,7 +157,7 @@ with tabs[0]:
             html = render_game(game_config)
             st.session_state["game_config"] = game_config
             st.session_state["game_html"] = html
-            st.session_state["trace"] = _demo_trace()
+            st.session_state["trace"] = _demo_trace(game_config)
             st.session_state["qa_report"] = qa_report
             mechanic_label = mechanic.upper()
             st.success(f"Demo loaded! Mechanic: {mechanic_label} | Theme: {game_config.get('theme', 'default')}")
@@ -342,7 +333,7 @@ with tabs[3]:
     | D1 | Unsupported mechanics (only push/slide supported) | Level Designer |
     | D2 | Grid too small: floor tiles < boxes x 3 + 2 | Level Designer |
     | D3 | >2 QA issues: structural redesign needed | Level Designer |
-    | D4 | Solver timeout (>200K states) | Level Designer |
+    | D4 | Solver timeout (>500K states) | Level Designer |
     | D5 | Layout similarity > 0.5 (diversity) | Level Designer |
     """)
 

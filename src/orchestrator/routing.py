@@ -14,6 +14,8 @@ This module encodes the rules as a pure function -- no LLM involved in routing.
 from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
+from src.config import SOLVER_MAX_STATES
+
 
 # -- Classification criteria -------------------------------------------
 
@@ -129,7 +131,7 @@ def classify_failure(
                 f"Player starts on {'wall' if player in wall_set else 'box'} at {player}")
 
     # D4: Solver timeout (must check before placement analysis)
-    if qa_report.get("solvable") is None or states_explored >= 200_000:
+    if qa_report.get("solvable") is None or states_explored >= SOLVER_MAX_STATES:
         return ("design_flaw", "D4",
                 f"Solver explored {states_explored} states without finding solution -- "
                 f"level is too complex for {grid_w}x{grid_h} grid")

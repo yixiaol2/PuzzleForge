@@ -9,8 +9,9 @@ Centralizes all LLM calls so we can:
 
 from __future__ import annotations
 import json
+import os
 from typing import Any, Dict, Optional
-from src.config import OPENAI_API_KEY, OPENAI_MODEL, DEMO_MODE, MAX_TOTAL_TOKENS
+from src.config import MAX_TOTAL_TOKENS
 
 # Running token counter shared across all calls in a pipeline run.
 _cumulative_tokens: int = 0
@@ -51,7 +52,8 @@ def call_llm(
             f"Token budget exhausted ({_cumulative_tokens}/{MAX_TOTAL_TOKENS})"
         )
 
-    if DEMO_MODE:
+    demo_mode = os.getenv("PUZZLEFORGE_DEMO_MODE", "false").lower() == "true"
+    if demo_mode:
         return {
             "content": '{"demo": true, "note": "Demo mode -- replace with live API response"}',
             "tokens_used": 0,
@@ -59,10 +61,15 @@ def call_llm(
 
     from openai import OpenAI
 
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is required for live pipeline runs")
+
+    model = os.getenv("OPENAI_MODEL", "gpt-4o")
+    client = OpenAI(api_key=api_key)
 
     kwargs: Dict[str, Any] = {
-        "model": OPENAI_MODEL,
+        "model": model,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},

@@ -3,7 +3,7 @@ PuzzleForge -- QA Tester Agent (Implementation Layer)
 
 Purpose: Run automated solver on every level. Report solvability, min moves,
          softlocks, difficulty rating, and difficulty curve monotonicity.
-Tools:   BFS/DFS solver (automated), softlock detector, difficulty analyzer.
+Tools:   BFS solver (automated), softlock detector, difficulty analyzer.
 Hard:    Solvability determination MUST come from the automated solver, NEVER from LLM reasoning.
 Soft:    Report difficulty concerns even for solvable levels.
 """
@@ -64,7 +64,7 @@ def qa_tester_node(state: Dict[str, Any]) -> Dict[str, Any]:
                 failed_ids.append(lr["level_id"])
 
     # Build summary
-    solvable_count = sum(1 for r in level_reports if r["solvable"])
+    solvable_count = sum(1 for r in level_reports if r["solvable"] is True)
     total = len(level_reports)
     summary = (
         f"{solvable_count}/{total} levels solvable. "
@@ -145,7 +145,7 @@ def _test_level(level: Dict[str, Any], mechanic: str = "push") -> Dict[str, Any]
 
     return {
         "level_id": level["level_id"],
-        "solvable": result.solvable if result.solvable is not None else False,
+        "solvable": result.solvable,
         "min_moves": result.min_moves,
         "solver_solution": result.solution[:50],  # Cap for readability
         "has_softlocks": len(boxes_on_dead) > 0,
@@ -153,6 +153,7 @@ def _test_level(level: Dict[str, Any], mechanic: str = "push") -> Dict[str, Any]
         "difficulty_rating": difficulty,
         "issues": issues,
         "states_explored": result.states_explored,
+        "timeout": result.timeout,
     }
 
 

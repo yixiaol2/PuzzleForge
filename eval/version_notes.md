@@ -13,12 +13,12 @@
 - **F-005: Diversity hard-blocking** -- Added soft-fail logic in `route_after_qa()`
 - **F-006: Debugger processing stale levels** -- Use only current-cycle `failed_level_ids`
 - **F-007: Slide levels harder for LLM** -- Added slide-specific design guidance (partially mitigated)
-- **F-008: Level Designer shortfall on slide** -- Known limitation; retry recovers partial results
+- **F-008: Level Designer shortfall on slide** -- Added exact level-ID validation and counted incomplete live runs as level-count contract failures
 
 ### What changed
 - `src/models.py` -- Added ThemeDetails model; MechanicSpec accepts push/slide; GameConfig carries primary_mechanic + theme_details
 - `src/agents/game_designer.py` -- Complete rewrite: LLM chooses mechanic and designs visual theme
-- `src/agents/level_designer.py` -- Slide-specific design guidance; mechanic context in fresh design and redesign prompts
+- `src/agents/level_designer.py` -- Slide-specific design guidance; mechanic context in fresh design and redesign prompts; exact level-count validation for fresh generation; exact redesigned-level ID validation for redesign
 - `src/agents/developer.py` -- Passes primary_mechanic and theme_details to GameConfig
 - `src/agents/qa_tester.py` -- Passes mechanic type to solver constructor
 - `src/solver/sokoban_solver.py` -- Added slide mechanic (box slides until hitting wall/box); dead-square pruning disabled for slide
@@ -27,13 +27,17 @@
 - `src/orchestrator/routing.py` -- D1 updated: only flags unsupported mechanics (push and slide both supported)
 - `src/app.py` -- Two demo buttons (push/slide); updated demo trace data
 - `src/main.py` -- Embedded demo configs for push (Space Station) and slide (Arctic Expedition)
+- `src/utils/llm.py` -- Reads OpenAI key, model, and demo mode from the runtime environment so Streamlit sidebar settings take effect
+- `src/orchestrator/graph.py` -- Preserves upstream terminal statuses and includes `pipeline_status` in design documents
 
 ### Live pipeline run results (v0.3)
 - Run 1: "Space station cargo robot" (push, space) -- 4/5 solvable, 3 debug cycles, 6,093 tokens, ~28s
 - Run 2: "Penguin sliding ice blocks" (slide, icy) -- 3/4 solvable, 3 debug cycles, 8,538 tokens, ~44s
 - Run 3: "Gothic dungeon gem puzzle" (push, gothic) -- 5/5 solvable, 0 debug cycles, 2,969 tokens, ~15s
 - Run 4: "Zero-gravity curling" (slide, space) -- 2/3 solvable, 3 debug cycles, 8,193 tokens, ~36s
-- Overall: 14/17 solvable (82%), push: 90%, slide: 71%. Mean tokens: 6,448. Mean time: 30.9s.
+- Overall: 14/17 solvable (82%), push: 90%, slide: 71%. Mean tokens: 6,448. Mean time: 30.8s.
+
+Level-count contract: RUN-02 and RUN-04 failed to produce the requested five levels. The evaluation counts these as contract failures, not clean final games.
 
 ### Baseline comparison (single-LLM vs multi-agent)
 - Single-LLM baseline: 13/20 solvable (65%). Push: 100%, Slide: 30%. Mean tokens: 1,348.
@@ -45,7 +49,7 @@
 ## v0.1-prototype (Phase 2, 2026-04-07)
 
 ### What's implemented
-- Full LangGraph pipeline with 9 nodes and 4 conditional edges
+- Full LangGraph pipeline with 9 nodes and 5 conditional edges
 - Game Designer agent (LLM-based, temp 0.8)
 - Level Designer agent (LLM-based, temp 0.7) with redesign support
 - Developer/Orchestrator (deterministic translation + formal routing criteria)
@@ -54,11 +58,11 @@
 - Sokoban BFS solver with corner deadlock, wall-line deadlock, and freeze deadlock detection
 - HTML/JS game template with keyboard/touch controls, undo, level progression
 - Streamlit dashboard with trace viewer, QA results display, and architecture view
-- Pydantic validation on all inter-agent JSON communication
+- Pydantic validation on LLM-generated game specs, level definitions, game configs, and debug patches
 - Append-only trace logging via LangGraph Annotated state
 
 ### Known limitations
-- Solver timeout at 200K states may be too low for complex 15x15 grids
+- Solver timeout at 500K states may still occur for complex 15x15 grids
 - Level Designer sometimes produces levels with box/target count mismatch (caught by Pydantic)
 - HTML template renders push and slide mechanics; switch/teleport are not yet implemented
 - Debugger relies on LLM for fix generation, which occasionally produces invalid patches

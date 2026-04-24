@@ -48,7 +48,7 @@ class PipelineState(TypedDict, total=False):
 
     # -- Pipeline control ----------------------------------------------
     debug_cycle: int                           # Current cycle (0-based, max 3)
-    pipeline_status: str                       # "running" | "completed" | "completed_with_failures" | "budget_exceeded" | "timeout"
+    pipeline_status: str                       # "running" | "completed" | "completed_with_failures" | "budget_exceeded" | "timeout" | "generation_failed"
 
     # -- Observability -------------------------------------------------
     trace_log: Annotated[List[Dict[str, Any]], operator.add]  # Append-only trace

@@ -2,7 +2,9 @@
 
 **Agentic Puzzle Game Design and Generation System**
 
-A multi-agent system that transforms a user's high-level game concept into a playable, browser-based Sokoban puzzle game. The Game Designer agent chooses between push and slide mechanics based on the user's concept and designs a complete visual theme (emojis, color scheme, entity names). The system separates creative design from automated verification using 5 coordinated agents across two layers, with every level verified solvable by a BFS solver that supports both mechanics. Each generated level ships with a move limit of `shortest_solution + 2`, computed by the solver, so players face a meaningful challenge and the game transitions to a `lost` state if they exceed it.
+A multi-agent system that transforms a user's high-level game concept into a playable, browser-based Sokoban puzzle game. The Game Designer agent chooses between push and slide mechanics based on the user's concept and designs a complete visual theme (emojis, color scheme, entity names). The system separates creative design from automated verification using 5 coordinated agents across two layers. Every level is checked by a BFS solver that supports both mechanics; unresolved failures are logged instead of hidden. The submitted final artifacts are two solver-verified demo games, one push and one slide, and both ship with a move limit of `shortest_solution + 2`.
+
+**Target user:** solo game designers, prototyping teams, and game-design students who want quick puzzle concepts but need solver-backed evidence that generated levels are playable.
 
 ## Team
 
@@ -15,7 +17,7 @@ A multi-agent system that transforms a user's high-level game concept into a pla
 
 ## Demo Video
 
-5-minute walkthrough: <https://drive.google.com/file/d/1wNfMunlP2ebZKdCsQFUoH5tTV9W9tSeh/view?usp=drive_link>
+Submitted 5-minute walkthrough: <https://drive.google.com/file/d/1wNfMunlP2ebZKdCsQFUoH5tTV9W9tSeh/view?usp=drive_link>
 
 ## Architecture
 
@@ -25,8 +27,9 @@ User Input --> Game Designer --> Level Designer --> Developer (translate)
     all_pass     --> Finalize (playable HTML game)
     has_failures --> Developer classifies & routes:
         config_bugs  --> Debugger --> Apply Patches --> QA re-test
-        design_flaws --> Level Designer (redesign) --> QA re-test
+        design_flaws --> Level Designer (redesign) --> Developer --> QA re-test
     max_cycles   --> Finalize (with failures logged)
+    generation_failed / budget / timeout --> Finalize (with terminal status)
 ```
 
 | Agent | Layer | Role | LLM? |
@@ -42,9 +45,9 @@ User Input --> Game Designer --> Level Designer --> Developer (translate)
 ## Game Features
 
 - **Two mechanics** -- push (box moves one tile) and slide (box slides until it hits a wall or another box). The Game Designer picks the mechanic from the user concept.
-- **Five visual themes** -- dark, earthy, icy, gothic, space. Entities render as emoji chosen per theme, and the header shows a mechanic badge.
+- **Five schema-supported visual themes** -- dark, earthy, icy, gothic, space. Entities render as emoji chosen per theme, and the header shows a mechanic badge.
 - **Move limit** -- every level displays `Moves: X / limit` and a `Best: N` par indicator, where `limit = min_moves + 2` using the BFS-computed shortest solution. Exceeding the limit shows a lose message and prompts a reset.
-- **Tight difficulty curve** -- minimum 6x6 grids, 2-box tutorial levels scaling to 4-5 box expert levels, with layout-driven progression via interior walls and multi-room structures.
+- **Tight difficulty curve** -- the submitted demos start at 6x6 with 2-box tutorial levels and scale to larger 3-box layouts. Live-generation prompts allow a brief 5x5 or 6x6 tutorial but push later levels toward larger grids, more boxes, and longer solver-verified solutions.
 
 ## Setup
 
@@ -67,13 +70,13 @@ cp .env.example .env
 ```bash
 python -m src.main --demo
 ```
-Loads a pre-built sample push game and renders it as `outputs/demo_game.html`. A pre-rendered slide demo is available at `outputs/demo_slide_game.html`.
+Loads a pre-built sample push game and renders it as `outputs/demo_game.html`. A pre-rendered slide demo is available at `outputs/demo_slide_game.html`. These are the portfolio-ready final artifacts included with the repository.
 
 ### Live pipeline
 ```bash
 python -m src.main "A push-block puzzle about a robot organizing crates in a warehouse"
 ```
-Outputs: `outputs/game.html` (playable game), `outputs/design_doc.json`, `outputs/trace.json`.
+Outputs, when you run the command locally: `outputs/game.html` (playable game), `outputs/design_doc.json`, `outputs/trace.json`. These generated files are not committed as final artifacts because they change on each live run.
 
 ### Streamlit dashboard
 ```bash
@@ -81,24 +84,33 @@ streamlit run src/app.py
 ```
 Interactive UI with game generation, trace viewer, QA results, and architecture reference. The "Demo: Push" and "Demo: Slide" buttons load pre-built games and run the BFS solver to populate the Evaluation tab, so move-limit enforcement works even without an API key.
 
+### Final report
+```bash
+python -B tools/build_report_pdf.py
+```
+Regenerates `docs/Final Report.pdf` from `docs/final_report.md`.
+
 ## Evaluation Results (Phase 3)
 
 Ran 4 live pipeline tests across different concepts (2 push, 2 slide):
 
 | Metric | Result |
 |---|---|
+| Acceptance target | >= 80% overall post-QA solvability |
 | Solvability rate (push) | 90% (9/10 levels) |
 | Solvability rate (slide) | 71% (5/7 levels) |
-| Solvability rate (overall) | 82% (14/17 levels) |
-| Pipeline completion | 100% (4/4 runs) |
+| Solvability rate (overall) | **82% (14/17 levels), meets acceptance target** |
+| Terminal output rate | 100% (4/4 runs reached a final status with saved artifacts) |
 | Mechanic selection accuracy | 100% (4/4 correct) |
 | Mean tokens per run | 6,448 |
-| Mean wall-clock time | 30.9 seconds |
+| Mean wall-clock time | 30.8 seconds |
 | Debug cycles needed | 0--3 per run |
 
-11 test cases executed (see `eval/test_cases.csv`). 8 failures documented and analyzed (see `eval/failure_log.md`).
+12 test cases executed (see `eval/test_cases.csv`). 8 failures documented and analyzed (see `eval/failure_log.md`).
 
 ### Baseline Comparison (single-LLM vs multi-agent)
+
+The single-LLM baseline is a lighter comparison condition: one prompt generates all levels without solver verification, specialized roles, or a repair loop. It is used to show the value of verification and repair, not to claim a controlled benchmark.
 
 | Metric | Single-LLM | Multi-Agent Pipeline |
 |---|---|---|
@@ -107,15 +119,13 @@ Ran 4 live pipeline tests across different concepts (2 push, 2 slide):
 | Solver verification | None | BFS ground truth |
 | Debug loop | None | Up to 3 cycles |
 
-The multi-agent pipeline's debug feedback loop more than doubles slide solvability versus a single LLM call. See `eval/baseline.py` and `eval/baseline_results.json`.
+The multi-agent pipeline shows the clearest lift on slide levels, where verification and repair raise solvability from 30% to 71%. See `eval/baseline.py` and `eval/baseline_results.json`.
 
 ## Summary of Outputs
 
-- **Playable games:** `outputs/game.html` (latest), plus `outputs/run2/`, `run3/`, `run4/` from live test runs.
-- **Demo games:** `outputs/demo_game.html` (push, Space Station) and `outputs/demo_slide_game.html` (slide, Arctic) -- pre-rendered and solver-verified, with move limits baked into the HTML.
-- **Design documents:** `outputs/design_doc.json` with the full game spec, level definitions, QA report, and routing decisions.
-- **Execution traces:** `outputs/trace.json` showing every agent interaction with token counts and timing.
-- **Sample configs:** `outputs/sample_traces/sample_game_config.json` (push) and `sample_slide_config.json` (slide) for reproducible demos.
+- **Final playable demos:** `outputs/demo_game.html` (push, Space Station) and `outputs/demo_slide_game.html` (slide, Arctic) -- pre-rendered and solver-verified, with move limits baked into the HTML.
+- **Live evaluation evidence:** `outputs/run1/`, `run2/`, `run3/`, and `run4/` include the saved games, design documents, and traces from the Phase 3 live runs.
+- **Sample configs:** `outputs/sample_traces/sample_game_config.json` (push), `outputs/sample_traces/sample_slide_config.json` (slide), and `outputs/sample_traces/sample_interaction_trace.json` for reproducible demos.
 
 ## Repository Structure
 
@@ -127,6 +137,7 @@ PuzzleForge/
 +-- .env.example                 # Environment template
 +-- docs/
 |   +-- Final Report.pdf         # Phase 3 final report (academic format)
+|   +-- final_report.md          # Markdown source for final report
 |   +-- architecture_diagram.pdf # System architecture diagram
 |   +-- PuzzleForge_Executive_Summary.pptx  # Executive summary deck
 |   \-- screenshots/             # Screenshots with index
@@ -156,7 +167,7 @@ PuzzleForge/
 |       +-- trace_logger.py      # Append-only trace entries
 |       \-- llm.py               # Centralized LLM wrapper
 +-- eval/
-|   +-- test_cases.csv           # 11 test scenarios with results
+|   +-- test_cases.csv           # 12 test scenarios with results
 |   +-- evaluation_results.csv   # Pipeline + baseline run data
 |   +-- evaluation_plan.md       # Evaluation methodology
 |   +-- failure_log.md           # 8 documented failures with analysis
@@ -164,18 +175,16 @@ PuzzleForge/
 |   +-- baseline_results.json    # Baseline run results
 |   \-- version_notes.md         # Version history
 \-- outputs/
-    +-- game.html                # Latest generated game
-    +-- design_doc.json          # Latest design document
-    +-- trace.json               # Latest execution trace
-    +-- demo_game.html           # Pre-built push demo (Space Station)
-    +-- demo_slide_game.html     # Pre-built slide demo (Arctic)
-    +-- run2/ run3/ run4/        # Additional test run outputs
-    \-- sample_traces/           # Sample configs for reproducible demos
+    +-- demo_game.html           # Final push demo (Space Station)
+    +-- demo_slide_game.html     # Final slide demo (Arctic)
+    +-- run1/ run2/ run3/ run4/  # Live test run evidence
+    \-- sample_traces/           # Sample configs and sample trace
 ```
 
 ## Known Limitations
 
-- The 200K-state solver cap may be too low for complex 15x15 grids, which can produce a solver timeout (D4) that routes the level back for redesign.
-- Slide-mechanic levels remain harder for the LLM to design correctly than push levels (71% vs 90% solvability); the slide-specific prompt guidance only partially closes the gap.
+- The 500K-state solver cap handles the Phase 3 demo levels but may still be too low for complex 15x15 grids, which can produce a solver timeout (D4) that routes the level back for redesign.
+- Slide-mechanic levels remain harder than push levels (71% vs 90% solvability). The prompt guidance improves the result, but the remaining gap is a clear next engineering target.
+- The live evaluation includes two level-count contract failures: RUN-02 produced 4/5 levels and RUN-04 produced 3/5 levels. These are counted directly in the evaluation rather than hidden behind the bundled demos.
 - Level Designer redesigns do not always preserve monotonic difficulty progression; the redesign prompt is not yet aware of the other levels' difficulty ratings.
-- Debugger LLM-based fixes occasionally produce invalid patches, caught by the QA re-test on the following cycle.
+- Debugger LLM-based fixes can fail in two ways: malformed patches are rejected or escalated by Pydantic validation, while structurally valid but ineffective patches are caught by the QA re-test on the following cycle.

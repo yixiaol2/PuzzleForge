@@ -1,4 +1,5 @@
 {
+  "pipeline_status": "completed_with_failures",
   "game_spec": {
     "puzzle_type": "sokoban",
     "theme": "Space Cargo Management",

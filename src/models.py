@@ -16,7 +16,10 @@ SUPPORTED_MECHANICS = ("push", "slide")
 
 class ThemeDetails(BaseModel):
     """Visual theme details for rendering the game."""
-    color_scheme: str = Field(default="dark", description="One of: dark, earthy, icy, gothic, space")
+    color_scheme: Literal["dark", "earthy", "icy", "gothic", "space"] = Field(
+        default="dark",
+        description="One of: dark, earthy, icy, gothic, space",
+    )
     player_emoji: str = Field(default="P", description="Emoji/icon for the player, e.g. a robot or wizard")
     box_emoji: str = Field(default="B", description="Emoji/icon for movable objects")
     target_emoji: str = Field(default="X", description="Emoji/icon for target positions")
@@ -62,8 +65,8 @@ class Entity(BaseModel):
 class LevelDefinition(BaseModel):
     """Output of the Level Designer agent (one per level)."""
     level_id: int
-    grid_width: int = Field(ge=4, le=15)
-    grid_height: int = Field(ge=4, le=15)
+    grid_width: int = Field(ge=5, le=15)
+    grid_height: int = Field(ge=5, le=15)
     walls: List[Tuple[int, int]] = Field(description="List of (x,y) wall positions")
     boxes: List[Tuple[int, int]] = Field(description="List of (x,y) box positions")
     targets: List[Tuple[int, int]] = Field(description="List of (x,y) target positions")

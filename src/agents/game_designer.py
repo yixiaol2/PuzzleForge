@@ -41,10 +41,10 @@ CONSTRAINTS:
 - level_count must be exactly {level_count}
 - progression_plan should increase complexity through LAYOUT difficulty
 - Difficulty targets (the game should be CHALLENGING, not trivial):
-  * Level 1: brief tutorial, 2 boxes, small but non-trivial (complexity_target: "tutorial")
+  * Level 1: brief tutorial, 1-2 boxes, small but non-trivial (complexity_target: "tutorial")
   * Middle levels: 2-3 boxes, interior obstacles (complexity_target: "intermediate" / "multi-room")
   * Final level(s): 4-5 boxes, complex maze layout (complexity_target: "challenge" / "expert")
-- Do NOT plan trivial 1-box levels. The player should feel meaningful difficulty progression.
+- Avoid trivial 1-box levels with direct one-step solutions. The player should feel meaningful difficulty progression.
 
 OUTPUT FORMAT: Return ONLY valid JSON matching this schema:
 {{
@@ -71,6 +71,30 @@ OUTPUT FORMAT: Return ONLY valid JSON matching this schema:
     "win_message": "<victory message matching the theme>"
   }}
 }}"""
+
+
+def _failure_response(
+    state: Dict[str, Any],
+    t0: float,
+    action: str,
+    reason: str,
+    tokens: int = 0,
+) -> Dict[str, Any]:
+    """Return a transparent terminal failure instead of crashing the graph."""
+    trace = make_trace_entry(
+        step=len(state.get("trace_log", [])) + 1,
+        agent="Game Designer",
+        action=action,
+        input_summary="Game specification generation failed validation",
+        output_summary=reason[:180],
+        tokens_used=tokens,
+        duration_seconds=time.time() - t0,
+    )
+    return {
+        "pipeline_status": "generation_failed",
+        "trace_log": [trace],
+        "total_tokens": state.get("total_tokens", 0) + tokens,
+    }
 
 
 def game_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
@@ -103,6 +127,13 @@ def game_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
             make_trace_entry(0, "Game Designer", "budget_exceeded",
                              "Token budget exhausted before generation", "", 0, 0)
         ]}
+    except Exception as e:
+        return _failure_response(
+            state,
+            t0,
+            "generate_game_spec_failed",
+            f"LLM call failed: {e}",
+        )
 
     raw_content = result["content"]
     tokens = result["tokens_used"]
@@ -138,6 +169,14 @@ def game_designer_node(state: Dict[str, Any]) -> Dict[str, Any]:
                 make_trace_entry(0, "Game Designer", "budget_exceeded",
                                  "Token budget exhausted during retry", "", tokens, 0)
             ]}
+        except Exception as retry_error:
+            return _failure_response(
+                state,
+                t0,
+                "generate_game_spec_failed",
+                f"Retry failed validation: {retry_error}",
+                tokens,
+            )
 
     duration = time.time() - t0
     trace = make_trace_entry(

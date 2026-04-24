@@ -100,6 +100,7 @@ def finalize_node(state: Dict[str, Any]) -> Dict[str, Any]:
 
     # Compile design document
     design_doc = {
+        "pipeline_status": state.get("pipeline_status", "running"),
         "game_spec": state.get("game_spec"),
         "level_definitions": state.get("level_definitions"),
         "game_config": game_config,
@@ -123,9 +124,9 @@ def finalize_node(state: Dict[str, Any]) -> Dict[str, Any]:
     )
 
     # Determine accurate terminal status.
-    # Preserve budget_exceeded / timeout if already set by an upstream node.
+    # Preserve terminal statuses set by upstream nodes.
     existing_status = state.get("pipeline_status", "running")
-    if existing_status in ("budget_exceeded", "timeout"):
+    if existing_status in ("budget_exceeded", "timeout", "generation_failed"):
         status = existing_status
     else:
         failed_ids = state.get("failed_level_ids", [])
@@ -140,6 +141,8 @@ def finalize_node(state: Dict[str, Any]) -> Dict[str, Any]:
             status = "completed_with_failures"
         else:
             status = "completed"
+
+    design_doc["pipeline_status"] = status
 
     return {
         "final_game_html": html_output,
@@ -173,7 +176,7 @@ def route_after_qa(state: Dict[str, Any]) -> str:
     # treat as soft failure: attempt one fix cycle, then accept.
     qa_report = state.get("qa_report", {})
     all_solvable = all(
-        lr.get("solvable", False)
+        lr.get("solvable") is True
         for lr in qa_report.get("level_reports", [])
     )
     if all_solvable and state.get("debug_cycle", 0) >= 1:
@@ -183,10 +186,22 @@ def route_after_qa(state: Dict[str, Any]) -> str:
     return "has_failures"
 
 
+def route_after_classification(state: Dict[str, Any]) -> str:
+    """After Developer classification, pick the next feedback action."""
+    if state.get("failed_level_ids", []):
+        return "needs_debug"
+    if state.get("levels_needing_redesign", []):
+        return "needs_redesign"
+    return "retest"
+
+
 def _check_budget_status(state: Dict[str, Any]) -> str:
-    """Route to finalize if any node set pipeline_status to budget_exceeded."""
-    if state.get("pipeline_status") == "budget_exceeded":
+    """Route to finalize if an upstream node set a terminal status."""
+    status = state.get("pipeline_status")
+    if status == "budget_exceeded":
         return "budget_exceeded"
+    if status and status != "running":
+        return "stop"
     return "continue"
 
 
@@ -226,12 +241,12 @@ def build_pipeline() -> StateGraph:
     graph.add_conditional_edges(
         "game_designer",
         _check_budget_status,
-        {"continue": "level_designer", "budget_exceeded": "finalize"},
+        {"continue": "level_designer", "budget_exceeded": "finalize", "stop": "finalize"},
     )
     graph.add_conditional_edges(
         "level_designer",
         _check_budget_status,
-        {"continue": "developer_translate", "budget_exceeded": "finalize"},
+        {"continue": "developer_translate", "budget_exceeded": "finalize", "stop": "finalize"},
     )
     graph.add_edge("developer_translate", "qa_tester")
 
@@ -250,7 +265,15 @@ def build_pipeline() -> StateGraph:
 
     # -- Developer routes failures --
     graph.add_edge("developer_route", "increment_cycle")
-    graph.add_edge("increment_cycle", "debugger")
+    graph.add_conditional_edges(
+        "increment_cycle",
+        route_after_classification,
+        {
+            "needs_debug": "debugger",
+            "needs_redesign": "level_designer",
+            "retest": "qa_tester",
+        },
+    )
 
     # -- Debugger --> apply patches --> check for redesign --
     graph.add_edge("debugger", "apply_patches")

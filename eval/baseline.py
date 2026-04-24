@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils.llm import call_llm, parse_json_response
 from src.solver.sokoban_solver import SokobanSolver, estimate_difficulty
+from src.config import SOLVER_MAX_STATES
 
 BASELINE_PROMPT = """Generate a complete Sokoban puzzle game with 5 levels.
 
@@ -125,7 +126,7 @@ def run_baseline(concept: str, mechanic: str = "push") -> dict:
                 boxes=boxes,
                 targets=targets,
                 player_start=player,
-                max_states=200_000,
+                max_states=SOLVER_MAX_STATES,
                 mechanic=mechanic,
             )
             r = solver.solve()
