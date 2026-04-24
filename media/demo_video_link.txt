@@ -1,6 +1,6 @@
 PuzzleForge -- 5-Minute Project Video
 
-Video link: (INSERT VIDEO URL HERE AFTER RECORDING)
+Video link: https://drive.google.com/file/d/1wNfMunlP2ebZKdCsQFUoH5tTV9W9tSeh/view?usp=drive_link
 
 Team: Yixiao Li, Kaizhen Tan, Hanzhe Hong
 Course: 94-815 Agentic Systems Studio, CMU Heinz College, Spring 2026
