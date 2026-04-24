@@ -128,7 +128,6 @@ PuzzleForge/
 +-- docs/
 |   +-- Final Report.pdf         # Phase 3 final report (academic format)
 |   +-- architecture_diagram.pdf # System architecture diagram
-|   +-- project_summary.pdf      # One-page project summary
 |   +-- PuzzleForge_Executive_Summary.pptx  # Executive summary deck
 |   \-- screenshots/             # Screenshots with index
 +-- media/
